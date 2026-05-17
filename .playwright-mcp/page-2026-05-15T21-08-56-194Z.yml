@@ -1,0 +1,12 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]: Loading...
+  - navigation "Bottom navigation" [ref=e4]:
+    - generic [ref=e6]:
+      - button "Open skill" [ref=e7] [cursor=pointer]:
+        - img [ref=e8]
+        - generic [ref=e13]: SKILL
+      - button "Open AI Tour Guide" [ref=e14] [cursor=pointer]:
+        - img "AI Tour Guide" [ref=e15]
+      - button "Go dashboard" [ref=e16] [cursor=pointer]:
+        - img [ref=e17]
+        - generic [ref=e19]: DASH

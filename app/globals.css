@@ -1,0 +1,453 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-ui: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --font-display: "Space Grotesk", "Sora", "Outfit", "Trebuchet MS", "Segoe UI", sans-serif;
+    --font-tech: "JetBrains Mono", "IBM Plex Mono", Consolas, "Courier New", monospace;
+
+    --font-inter: var(--font-ui);
+    --font-space-grotesk: var(--font-display);
+    --font-jetbrains-mono: var(--font-tech);
+    --font-modern: var(--font-ui);
+    --font-geometric: var(--font-display);
+    --font-futuristic: var(--font-display);
+
+    /* Default page surface (used by RootLayout/body, nav spacer, overscroll). */
+    --app-page-bg: #000000;
+    --app-page-fg: rgb(226 232 240); /* slate-200 */
+  }
+
+  html,
+  body {
+    width: 100%;
+    min-height: 100%;
+  }
+
+  html {
+    background: var(--app-page-bg);
+    color: var(--app-page-fg);
+    color-scheme: dark;
+  }
+
+  body {
+    overflow-x: hidden;
+    background: var(--app-page-bg);
+    color: var(--app-page-fg);
+  }
+
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Page Layout Base Classes - Prevent CSS Conflicts */
+.auth-layout {
+  @apply min-h-screen bg-black text-slate-200 overflow-x-hidden;
+  @apply selection:bg-purple-500/30 selection:text-purple-200;
+}
+
+.dashboard-layout {
+  @apply min-h-screen bg-slate-900 text-white overflow-x-hidden;
+  @apply selection:bg-blue-500/30 selection:text-blue-200;
+}
+
+.skill-layout {
+  @apply min-h-screen bg-slate-950 text-white overflow-x-hidden;
+  @apply selection:bg-cyan-500/30 selection:text-cyan-200;
+}
+
+.pronunciation-layout {
+  @apply relative w-full min-h-screen overflow-x-hidden overflow-y-visible text-white;
+  background: transparent;
+  @apply selection:bg-fuchsia-500 selection:text-white;
+}
+
+.pronunciation-layout.pronunciation-theme {
+  --pronun-page-bg:
+    radial-gradient(
+      900px 420px at 10% -12%,
+      var(--pronun-glow-1, rgba(168, 85, 247, 0.26)),
+      transparent 55%
+    ),
+    radial-gradient(
+      860px 420px at 92% 112%,
+      var(--pronun-glow-2, rgba(217, 70, 239, 0.18)),
+      transparent 57%
+    ),
+    var(--pronun-base, #0a0a0a);
+  background: var(--pronun-page-bg) !important;
+}
+
+.pronunciation-theme {
+  --pronun-text: rgba(255, 255, 255, 0.96);
+  --pronun-muted: rgba(255, 255, 255, 0.78);
+  --pronun-surface-rgb: 10 10 10;
+  --pronun-panel-rgb: 10 10 10;
+  --pronun-accent-1-rgb: 168 85 247;
+  --pronun-accent-2-rgb: 217 70 239;
+}
+
+.pronunciation-layout.pronunciation-theme ::selection {
+  background: var(--pronun-selection-bg, rgba(217, 70, 239, 0.35));
+  color: var(--pronun-selection-fg, #ffffff);
+}
+
+.pronunciation-theme--alphabet {
+  --pronun-base: #050b19;
+  --pronun-glow-1: rgba(59, 130, 246, 0.26);
+  --pronun-glow-2: rgba(6, 182, 212, 0.18);
+  --pronun-selection-bg: rgba(6, 182, 212, 0.35);
+  --pronun-surface-rgb: 5 11 25;
+  --pronun-panel-rgb: 10 18 40;
+  --pronun-accent-1-rgb: 59 130 246;
+  --pronun-accent-2-rgb: 6 182 212;
+}
+
+.pronunciation-theme--stressing {
+  --pronun-base: #120a06;
+  --pronun-glow-1: rgba(250, 204, 21, 0.26);
+  --pronun-glow-2: rgba(249, 115, 22, 0.18);
+  --pronun-selection-bg: rgba(249, 115, 22, 0.35);
+  --pronun-surface-rgb: 18 10 6;
+  --pronun-panel-rgb: 24 12 8;
+  --pronun-accent-1-rgb: 250 204 21;
+  --pronun-accent-2-rgb: 249 115 22;
+}
+
+.pronunciation-theme--intonation {
+  --pronun-base: #1a0612;
+  --pronun-glow-1: rgba(236, 72, 153, 0.24);
+  --pronun-glow-2: rgba(225, 29, 72, 0.18);
+  --pronun-selection-bg: rgba(236, 72, 153, 0.35);
+  --pronun-surface-rgb: 26 6 18;
+  --pronun-panel-rgb: 35 8 22;
+  --pronun-accent-1-rgb: 236 72 153;
+  --pronun-accent-2-rgb: 225 29 72;
+}
+
+.pronunciation-theme--final-sound {
+  --pronun-base: #031116;
+  --pronun-glow-1: rgba(34, 211, 238, 0.26);
+  --pronun-glow-2: rgba(8, 145, 178, 0.18);
+  --pronun-selection-bg: rgba(34, 211, 238, 0.35);
+  --pronun-text: rgba(230, 251, 255, 0.97);
+  --pronun-muted: rgba(195, 245, 255, 0.82);
+  --pronun-surface-rgb: 3 17 22;
+  --pronun-panel-rgb: 5 24 30;
+  --pronun-accent-1-rgb: 34 211 238;
+  --pronun-accent-2-rgb: 8 145 178;
+}
+
+.pronunciation-theme--american-t {
+  --pronun-base: #020b1e;
+  --pronun-glow-1: rgba(11, 74, 166, 0.22);
+  --pronun-glow-2: rgba(0, 40, 104, 0.2);
+  --pronun-selection-bg: rgba(11, 74, 166, 0.38);
+  --pronun-text: rgba(236, 244, 255, 0.97);
+  --pronun-muted: rgba(201, 221, 255, 0.82);
+  --pronun-surface-rgb: 2 11 30;
+  --pronun-panel-rgb: 6 18 46;
+  --pronun-accent-1-rgb: 11 74 166;
+  --pronun-accent-2-rgb: 0 40 104;
+}
+
+.pronunciation-theme--text {
+  --pronun-base: #04140a;
+  --pronun-glow-1: rgba(52, 211, 153, 0.22);
+  --pronun-glow-2: rgba(22, 163, 74, 0.18);
+  --pronun-selection-bg: rgba(34, 197, 94, 0.35);
+  --pronun-text: rgba(236, 255, 245, 0.97);
+  --pronun-muted: rgba(196, 255, 223, 0.82);
+  --pronun-surface-rgb: 4 20 10;
+  --pronun-panel-rgb: 8 34 18;
+  --pronun-accent-1-rgb: 52 211 153;
+  --pronun-accent-2-rgb: 22 163 74;
+}
+
+.pronunciation-theme--reading-text {
+  --pronun-base: #080a18;
+  --pronun-glow-1: rgba(129, 140, 248, 0.26);
+  --pronun-glow-2: rgba(124, 58, 237, 0.18);
+  --pronun-selection-bg: rgba(167, 139, 250, 0.35);
+  --pronun-text: rgba(238, 242, 255, 0.97);
+  --pronun-muted: rgba(224, 231, 255, 0.84);
+  --pronun-surface-rgb: 8 10 24;
+  --pronun-panel-rgb: 17 21 46;
+  --pronun-accent-1-rgb: 129 140 248;
+  --pronun-accent-2-rgb: 124 58 237;
+}
+
+.pronunciation-layout.pronunciation-theme :where(
+  .glass-panel,
+  .pronunciation-topic-card-body,
+  .alphabet-main-title,
+  .alphabet-quick-spelling-panel,
+  .alphabet-notes-panel,
+  .alphabet-note-card,
+  .alphabet-prompt-card,
+  .alphabet-letter-card,
+  .fsn-orbit-stage,
+  .sh-card,
+  .fs-topic-block,
+  .fs-topic-card,
+  .fs-topic-rules-table-wrap,
+  .stress-block,
+  .stress-card,
+  .stress-syllable-card,
+  .stress-rule-card,
+  .stress-bank-card,
+  .stress-mark-card,
+  .stress-fix-card,
+  .stress-prompt-card,
+  .at-hub-canvas-wrap,
+  .at-hub-node-lesson-card,
+  .at-hub-summary-card,
+  .at-hub-group-card,
+  .text-pronunciation-panel,
+  .rt-panel
+) {
+  border-color: rgb(var(--pronun-accent-1-rgb) / 0.38);
+  border-radius: 14px;
+  background:
+    linear-gradient(165deg, rgb(var(--pronun-panel-rgb) / 0.86), rgb(var(--pronun-surface-rgb) / 0.94)),
+    radial-gradient(circle at 18% 12%, rgb(var(--pronun-accent-1-rgb) / 0.14), transparent 58%);
+  box-shadow:
+    0 16px 32px rgba(0, 0, 0, 0.34),
+    0 0 0 1px rgb(var(--pronun-accent-1-rgb) / 0.1),
+    0 0 34px rgb(var(--pronun-accent-2-rgb) / 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.pronunciation-layout.pronunciation-theme :where(
+  .pronunciation-topic-card-body,
+  .alphabet-letter-card,
+  .fs-topic-card,
+  .stress-card,
+  .stress-syllable-card,
+  .stress-rule-card,
+  .stress-bank-card,
+  .sh-card,
+  .at-hub-node-lesson-card
+):hover {
+  border-color: rgb(var(--pronun-accent-2-rgb) / 0.62);
+  box-shadow:
+    0 18px 34px rgba(0, 0, 0, 0.38),
+    0 0 0 1px rgb(var(--pronun-accent-2-rgb) / 0.18),
+    0 0 40px rgb(var(--pronun-accent-2-rgb) / 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.pronunciation-layout.pronunciation-theme .pronunciation-topic-ring {
+  border: 2px dotted rgb(var(--pronun-accent-2-rgb) / 0.78);
+  box-shadow: 0 0 22px rgb(var(--pronun-accent-2-rgb) / 0.32);
+}
+
+.pronunciation-layout.pronunciation-theme .pronunciation-topic-card-desc {
+  color: rgb(var(--pronun-accent-2-rgb) / 0.9);
+}
+
+.pronunciation-layout.pronunciation-theme .pronunciation-topic-dot {
+  background: rgb(var(--pronun-accent-2-rgb) / 0.92);
+  box-shadow: 0 0 10px rgb(var(--pronun-accent-2-rgb) / 0.58);
+}
+
+.pronunciation-layout.pronunciation-theme .pronunciation-topic-line {
+  background: linear-gradient(to bottom, rgb(var(--pronun-accent-2-rgb) / 0.9), transparent);
+}
+
+@supports (height: 100dvh) {
+  .auth-layout,
+  .dashboard-layout,
+  .skill-layout,
+  .pronunciation-layout {
+    min-height: 100dvh;
+  }
+}
+
+/* Layout Reset - Force Clean State */
+.layout-reset {
+  all: initial;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  position: relative;
+}
+
+/* ============================================
+   TYPOGRAPHY SYSTEM - Consistent Font Sizes
+   Following Gemini UI Standards
+   ============================================ */
+
+@layer utilities {
+  /* Screen Reader Only - Accessibility utility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Body Text / Paragraph Text */
+  .text-body {
+    font-size: 16px;
+    line-height: 1.5; /* 24px - comfortable for long reading */
+  }
+
+  @media (max-width: 767px) {
+    .text-body {
+      font-size: 15px;
+    }
+  }
+
+  /* Heading 2 - Section Titles */
+  .text-h2 {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  @media (max-width: 767px) {
+    .text-h2 {
+      font-size: 20px;
+    }
+  }
+
+  /* Heading 3 - Sub-section Titles */
+  .text-h3 {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 767px) {
+    .text-h3 {
+      font-size: 16px;
+    }
+  }
+
+  /* Code Blocks - Monospace */
+  .text-code {
+    font-size: 14px;
+    font-family: var(--font-tech);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 767px) {
+    .text-code {
+      font-size: 13px;
+    }
+  }
+
+  /* Small text - captions, labels */
+  .text-small {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 767px) {
+    .text-small {
+      font-size: 13px;
+    }
+  }
+
+  /* Extra small - metadata, timestamps */
+  .text-xs-custom {
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  @media (max-width: 767px) {
+    .text-xs-custom {
+      font-size: 11px;
+    }
+  }
+}
+
+/* Override defaults to match our typography system */
+@layer components {
+  /* Paragraph defaults */
+  p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 767px) {
+    p {
+      font-size: 15px;
+    }
+  }
+
+  /* Heading defaults */
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  @media (max-width: 767px) {
+    h2 {
+      font-size: 20px;
+    }
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 767px) {
+    h3 {
+      font-size: 16px;
+    }
+  }
+
+  /* Code defaults */
+  code,
+  pre {
+    font-size: 14px;
+    font-family: var(--font-tech);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 767px) {
+    code,
+    pre {
+      font-size: 13px;
+    }
+  }
+
+  /* Button text should be readable */
+  button {
+    font-size: 15px;
+  }
+
+  @media (max-width: 767px) {
+    button {
+      font-size: 14px;
+    }
+  }
+
+  /* Input text should match body - 16px prevents zoom on iOS */
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}

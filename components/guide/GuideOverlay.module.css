@@ -1,0 +1,14 @@
+/**
+ * GuideOverlay Styles
+ * 
+ * Styles for the semi-transparent overlay that highlights target elements
+ * during the interactive guide.
+ */
+
+.targetHighlight {
+  position: fixed;
+  border: 2px solid rgba(34, 211, 238, 0.95);
+  border-radius: 18px;
+  pointer-events: none;
+  transition: all 0.2s ease-in-out;
+}

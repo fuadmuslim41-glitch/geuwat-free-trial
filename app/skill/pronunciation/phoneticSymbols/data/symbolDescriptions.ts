@@ -1,0 +1,333 @@
+// Symbol Descriptions for Phonetic Symbols
+// Modular symbol descriptions data for IPA symbols
+
+export interface SymbolDescription {
+  description: string;
+  category: 'vowel' | 'consonant' | 'diphthong';
+  subcategory?: string;
+}
+
+export interface SymbolDescriptions {
+  [key: string]: SymbolDescription;
+}
+
+// Vowel Descriptions
+const vowelDescriptions: SymbolDescriptions = {
+  'i': {
+    description: 'Close front unrounded vowel',
+    category: 'vowel',
+    subcategory: 'close'
+  },
+  'ɪ': {
+    description: 'Near-close near-front unrounded vowel',
+    category: 'vowel',
+    subcategory: 'near-close'
+  },
+  'e': {
+    description: 'Close-mid front unrounded vowel',
+    category: 'vowel',
+    subcategory: 'close-mid'
+  },
+  'ɛ': {
+    description: 'Open-mid front unrounded vowel',
+    category: 'vowel',
+    subcategory: 'open-mid'
+  },
+  'æ': {
+    description: 'Near-open front unrounded vowel',
+    category: 'vowel',
+    subcategory: 'near-open'
+  },
+  'ɑ': {
+    description: 'Open back unrounded vowel',
+    category: 'vowel',
+    subcategory: 'open'
+  },
+  'ɔ': {
+    description: 'Open-mid back rounded vowel',
+    category: 'vowel',
+    subcategory: 'open-mid'
+  },
+  'ʊ': {
+    description: 'Near-close near-back rounded vowel',
+    category: 'vowel',
+    subcategory: 'near-close'
+  },
+  'ʌ': {
+    description: 'Open-mid back unrounded vowel',
+    category: 'vowel',
+    subcategory: 'open-mid'
+  },
+  'ə': {
+    description: 'Mid central vowel (schwa)',
+    category: 'vowel',
+    subcategory: 'mid'
+  },
+  'ɚ': {
+    description: 'R-colored mid central vowel',
+    category: 'vowel',
+    subcategory: 'r-colored'
+  },
+  'u': {
+    description: 'Close back rounded vowel',
+    category: 'vowel',
+    subcategory: 'close'
+  }
+};
+
+// Consonant Descriptions
+const consonantDescriptions: SymbolDescriptions = {
+  'p': {
+    description: 'Voiceless bilabial plosive',
+    category: 'consonant',
+    subcategory: 'plosive'
+  },
+  'b': {
+    description: 'Voiced bilabial plosive',
+    category: 'consonant',
+    subcategory: 'plosive'
+  },
+  't': {
+    description: 'Voiceless alveolar plosive',
+    category: 'consonant',
+    subcategory: 'plosive'
+  },
+  'd': {
+    description: 'Voiced alveolar plosive',
+    category: 'consonant',
+    subcategory: 'plosive'
+  },
+  'k': {
+    description: 'Voiceless velar plosive',
+    category: 'consonant',
+    subcategory: 'plosive'
+  },
+  'g': {
+    description: 'Voiced velar plosive',
+    category: 'consonant',
+    subcategory: 'plosive'
+  },
+  'f': {
+    description: 'Voiceless labiodental fricative',
+    category: 'consonant',
+    subcategory: 'fricative'
+  },
+  'v': {
+    description: 'Voiced labiodental fricative',
+    category: 'consonant',
+    subcategory: 'fricative'
+  },
+  'θ': {
+    description: 'Voiceless dental fricative',
+    category: 'consonant',
+    subcategory: 'fricative'
+  },
+  'ð': {
+    description: 'Voiced dental fricative',
+    category: 'consonant',
+    subcategory: 'fricative'
+  },
+  's': {
+    description: 'Voiceless alveolar fricative',
+    category: 'consonant',
+    subcategory: 'fricative'
+  },
+  'z': {
+    description: 'Voiced alveolar fricative',
+    category: 'consonant',
+    subcategory: 'fricative'
+  },
+  'ʃ': {
+    description: 'Voiceless postalveolar fricative',
+    category: 'consonant',
+    subcategory: 'fricative'
+  },
+  'ʒ': {
+    description: 'Voiced postalveolar fricative',
+    category: 'consonant',
+    subcategory: 'fricative'
+  },
+  'h': {
+    description: 'Voiceless glottal fricative',
+    category: 'consonant',
+    subcategory: 'fricative'
+  },
+  'ʧ': {
+    description: 'Voiceless postalveolar affricate',
+    category: 'consonant',
+    subcategory: 'affricate'
+  },
+  'ʤ': {
+    description: 'Voiced postalveolar affricate',
+    category: 'consonant',
+    subcategory: 'affricate'
+  },
+  'm': {
+    description: 'Bilabial nasal',
+    category: 'consonant',
+    subcategory: 'nasal'
+  },
+  'n': {
+    description: 'Alveolar nasal',
+    category: 'consonant',
+    subcategory: 'nasal'
+  },
+  'ŋ': {
+    description: 'Velar nasal',
+    category: 'consonant',
+    subcategory: 'nasal'
+  },
+  'l': {
+    description: 'Alveolar lateral approximant',
+    category: 'consonant',
+    subcategory: 'approximant'
+  },
+  'r': {
+    description: 'Alveolar approximant',
+    category: 'consonant',
+    subcategory: 'approximant'
+  },
+  'w': {
+    description: 'Labial-velar approximant',
+    category: 'consonant',
+    subcategory: 'approximant'
+  },
+  'j': {
+    description: 'Palatal approximant',
+    category: 'consonant',
+    subcategory: 'approximant'
+  }
+};
+
+// Diphthong Descriptions
+const diphthongDescriptions: SymbolDescriptions = {
+  'aɪ': {
+    description: 'Closing diphthong ending in front close vowel',
+    category: 'diphthong',
+    subcategory: 'closing'
+  },
+  'aʊ': {
+    description: 'Closing diphthong ending in back close vowel',
+    category: 'diphthong',
+    subcategory: 'closing'
+  },
+  'eɪ': {
+    description: 'Closing diphthong ending in front close vowel',
+    category: 'diphthong',
+    subcategory: 'closing'
+  },
+  'ɔɪ': {
+    description: 'Closing diphthong ending in back close vowel',
+    category: 'diphthong',
+    subcategory: 'closing'
+  },
+  'oʊ': {
+    description: 'Closing diphthong ending in back close vowel',
+    category: 'diphthong',
+    subcategory: 'closing'
+  },
+  'eə': {
+    description: 'Centering diphthong ending in schwa',
+    category: 'diphthong',
+    subcategory: 'centering'
+  },
+  'ɪə': {
+    description: 'Centering diphthong ending in schwa',
+    category: 'diphthong',
+    subcategory: 'centering'
+  },
+  'ʊə': {
+    description: 'Centering diphthong ending in schwa',
+    category: 'diphthong',
+    subcategory: 'centering'
+  }
+};
+
+// Combined all descriptions
+const allSymbolDescriptions: SymbolDescriptions = {
+  ...vowelDescriptions,
+  ...consonantDescriptions,
+  ...diphthongDescriptions
+};
+
+// Helper function to get symbol description
+export function getSymbolDescription(symbol: string): string {
+  return allSymbolDescriptions[symbol]?.description || 'International Phonetic Alphabet Symbol';
+}
+
+// Helper function to get category display name
+export function getCategoryDisplayName(symbol: string): string {
+  const normalizedSymbol = symbol
+    .replace('Ã¦', '\u00e6')
+    .replace('Ã°', '\u00f0')
+    .replace('Å‹', '\u014b')
+    .replace('É‘', '\u0251')
+    .replace('É”', '\u0254')
+    .replace('ÊŒ', '\u028c')
+    .replace('Éª', '\u026a')
+    .replace('ÊŠ', '\u028a')
+    .replace('É›', '\u025b')
+    .replace('É™', '\u0259')
+    .replace('Éš', '\u025a')
+    .replace('Î¸', '\u03b8')
+    .replace('Êƒ', '\u0283')
+    .replace('Ê§', '\u02a7')
+    .replace('Ê’', '\u0292')
+    .replace('Ê¤', '\u02a4');
+
+  const symbolData = allSymbolDescriptions[normalizedSymbol] || allSymbolDescriptions[symbol];
+  if (!symbolData) return 'Unknown';
+
+  // Explicit category mapping (must match symbol portal grouping)
+  const vowelTense = new Set(['\u0251', 'i', 'u', '\u00e6', '\u0254']);
+  const vowelLax = new Set(['\u028c', '\u026a', '\u028a', '\u025b', '\u0259', '\u025a']);
+  const consonantVoiceless = new Set(['p', 't', 'k', 'f', '\u03b8', 's', '\u0283', '\u02a7', 'h']);
+  const consonantVoiced = new Set([
+    'b', 'd', 'g', 'v', '\u00f0', 'z', '\u0292', '\u02a4', 'l', 'm', 'n', '\u014b', 'r', 'w', 'y', 'j',
+  ]);
+  const diphthong = new Set(['a\u026a', 'e\u026a', '\u0254\u026a', '\u026a\u0259', 'e\u0259', '\u028a\u0259', 'o\u028a', 'a\u028a']);
+
+  if (vowelTense.has(normalizedSymbol)) {
+    return 'vowel_tense';
+  }
+  if (vowelLax.has(normalizedSymbol)) {
+    return 'vowel_lax';
+  }
+  if (consonantVoiceless.has(normalizedSymbol)) {
+    return 'consonant_voiceless';
+  }
+  if (consonantVoiced.has(normalizedSymbol)) {
+    return 'consonant_voiced';
+  }
+  if (diphthong.has(normalizedSymbol)) {
+    return 'diphthong';
+  }
+  
+  const { category, subcategory } = symbolData;
+  
+  // Map to specific category names based on your requirements
+  if (category === 'vowel') {
+    // Determine if vowel is tense or lax based on subcategory
+    const tenseVowels = ['close', 'close-mid'];
+    const laxVowels = ['near-close', 'open', 'open-mid', 'near-open', 'mid', 'r-colored'];
+    
+    if (tenseVowels.includes(subcategory || '')) {
+      return 'vowel_tense';
+    } else if (laxVowels.includes(subcategory || '')) {
+      return 'vowel_lax';
+    }
+  } else if (category === 'consonant') {
+    // Determine if consonant is voiced or voiceless based on description
+    const description = symbolData.description.toLowerCase();
+    if (description.includes('voiced')) {
+      return 'consonant_voiced';
+    } else if (description.includes('voiceless')) {
+      return 'consonant_voiceless';
+    }
+  } else if (category === 'diphthong') {
+    return 'diphthong';
+  }
+  
+  // Fallback to category name
+  return category;
+}
