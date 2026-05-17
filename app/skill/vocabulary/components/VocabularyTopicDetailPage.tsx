@@ -394,10 +394,12 @@ export default function VocabularyTopicDetailPage({
   }, []);
 
   const goToPage = useCallback(
-    (nextPage: number) => {
+    (nextPage: number, skipStopPlayback = false) => {
       const safePage = Math.min(totalPages, Math.max(1, nextPage));
       if (safePage === effectivePage) return;
-      stopPlayback();
+      if (!skipStopPlayback) {
+        stopPlayback();
+      }
       setCurrentPage(safePage);
       setCarouselIndex(0);
     },
@@ -428,8 +430,22 @@ export default function VocabularyTopicDetailPage({
     setIsPlayAllRunning(true);
     setPlayMode('words');
 
-    for (const item of visibleWords) {
+    for (let i = 0; i < visibleWords.length; i++) {
       if (playTokenRef.current !== token) break;
+      
+      const item = visibleWords[i];
+      if (!item) continue;
+      
+      // Auto-navigate to the page containing this word (desktop only)
+      if (!isMobile) {
+        const targetPage = Math.floor(i / WORDS_PER_PAGE) + 1;
+        if (targetPage !== effectivePage) {
+          setCurrentPage(targetPage);
+          // Small delay to allow page transition
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+      }
+      
       setPlayingItemId(item.id);
       await speakVocabularyText(item.word);
     }
@@ -439,7 +455,7 @@ export default function VocabularyTopicDetailPage({
       setIsPlayAllRunning(false);
       setPlayMode(null);
     }
-  }, [visibleWords]);
+  }, [visibleWords, isMobile, effectivePage]);
 
   const playAllWordThenExample = useCallback(async () => {
     if (!visibleWords.length) return;
@@ -450,8 +466,22 @@ export default function VocabularyTopicDetailPage({
     setIsPlayAllRunning(true);
     setPlayMode('word-example');
 
-    for (const item of visibleWords) {
+    for (let i = 0; i < visibleWords.length; i++) {
       if (playTokenRef.current !== token) break;
+      
+      const item = visibleWords[i];
+      if (!item) continue;
+      
+      // Auto-navigate to the page containing this word (desktop only)
+      if (!isMobile) {
+        const targetPage = Math.floor(i / WORDS_PER_PAGE) + 1;
+        if (targetPage !== effectivePage) {
+          setCurrentPage(targetPage);
+          // Small delay to allow page transition
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+      }
+      
       setPlayingItemId(item.id);
       await speakVocabularyText(item.word);
       if (playTokenRef.current !== token) break;
@@ -463,7 +493,7 @@ export default function VocabularyTopicDetailPage({
       setIsPlayAllRunning(false);
       setPlayMode(null);
     }
-  }, [visibleWords]);
+  }, [visibleWords, isMobile, effectivePage]);
 
   const handleSaveProgress = useCallback(
     async (percentage: number) => {
@@ -646,6 +676,7 @@ export default function VocabularyTopicDetailPage({
               className={`vocab-action-btn vocab-action-btn--secondary vocab-control-btn ${showTranslation ? 'is-active' : ''}`}
               onClick={() => setShowTranslation((prev) => !prev)}
               aria-pressed={showTranslation}
+              data-tour="vocab-toggle-translation"
             >
               {showTranslation ? 'Sembunyikan Terjemahan' : 'Tampilkan Terjemahan'}
             </button>
@@ -654,6 +685,7 @@ export default function VocabularyTopicDetailPage({
               className={`vocab-action-btn vocab-action-btn--secondary vocab-control-btn ${showIpa ? 'is-active' : ''}`}
               onClick={() => setShowIpa((prev) => !prev)}
               aria-pressed={showIpa}
+              data-tour="vocab-toggle-ipa"
             >
               {showIpa ? 'Sembunyikan IPA' : 'Tampilkan IPA'}
             </button>
@@ -661,6 +693,7 @@ export default function VocabularyTopicDetailPage({
               type="button"
               className="vocab-action-btn vocab-action-btn--primary vocab-control-btn vocab-control-btn--full"
               onClick={() => setIsPracticeModalOpen(true)}
+              data-tour="vocab-practice-button"
             >
               Practice
             </button>
@@ -669,6 +702,7 @@ export default function VocabularyTopicDetailPage({
               className="vocab-action-btn vocab-action-btn--primary vocab-control-btn vocab-control-btn--full"
               onClick={() => void playAllWords()}
               disabled={!visibleWords.length || isPlayAllRunning}
+              data-tour="vocab-play-all-button"
             >
               Play All Words
             </button>

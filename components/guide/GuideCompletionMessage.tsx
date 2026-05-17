@@ -49,17 +49,41 @@ export const GuideCompletionMessage: React.FC = () => {
         message: 'Apakah Anda ingin melanjutkan panduan untuk menjelajahi menu Pronunciation? Ini akan membantu Anda meningkatkan kemampuan pronunciation bahasa Inggris.',
         route: '/skill/pronunciation',
       };
+    } else if (pathname === '/skill/pronunciation') {
+      return {
+        title: 'Bonus: Fitur Alphabet! 🎁',
+        message: 'Apakah Anda ingin melanjutkan panduan untuk menjelajahi fitur Alphabet? Ini akan membantu Anda belajar pengucapan huruf-huruf bahasa Inggris.',
+        route: '/skill/pronunciation/alphabet',
+      };
     } else if (pathname === '/skill/pronunciation/alphabet') {
       return {
         title: 'Bonus: Fitur Phonetic Portal! 🎁',
         message: 'Apakah Anda ingin melanjutkan panduan untuk menjelajahi fitur Phonetic Portal? Ini akan membantu Anda mempelajari simbol-simbol fonetik dan meningkatkan pronunciation Anda.',
         route: '/skill/pronunciation/phoneticSymbols',
       };
+    } else if (pathname === '/skill/pronunciation/phoneticSymbols') {
+      return {
+        title: 'Bonus: Detail Simbol Fonetik! 🎁',
+        message: 'Apakah Anda ingin melanjutkan panduan untuk melihat detail simbol fonetik /i/? Ini akan membantu Anda memahami cara pengucapan simbol fonetik secara mendalam.',
+        route: '/skill/pronunciation/phoneticSymbols/i',
+      };
     } else if (pathname === '/skill/pronunciation/phoneticSymbols/i') {
       return {
         title: 'Bonus: Fitur Vocabulary! 🎁',
         message: 'Apakah Anda ingin melanjutkan panduan untuk menjelajahi fitur vocabulary? Ini akan membantu Anda memperluas kosakata bahasa Inggris Anda.',
         route: '/skill/vocabulary',
+      };
+    } else if (pathname === '/skill/vocabulary') {
+      return {
+        title: 'Bonus: Vocabulary Detail! 🎁',
+        message: 'Apakah Anda ingin melanjutkan panduan untuk melihat detail topik vocabulary? Ini akan membantu Anda belajar kata-kata dalam topik Personal Information.',
+        route: '/skill/vocabulary/topic/pages/personal-information',
+      };
+    } else if (pathname === '/skill/vocabulary/topic/pages/personal-information') {
+      return {
+        title: 'Selamat! 🎉',
+        message: 'Anda telah menyelesaikan semua panduan GEUWAT! Sekarang Anda siap untuk belajar bahasa Inggris dengan mandiri.',
+        route: '/dashboard',
       };
     }
     

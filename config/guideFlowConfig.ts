@@ -8,6 +8,8 @@
  * - Phonetic Portal (3 steps) - Complete on phonetic portal
  * - Phonetic Detail Page (10 steps) - Complete on phonetic detail
  * - Alphabet Page (10 steps) - Complete on alphabet page
+ * - Vocabulary List Page (5 steps) - Complete on vocabulary list
+ * - Vocabulary Detail Page (8 steps) - Complete on vocabulary detail
  * 
  * Each guide is independent and completes within its own page.
  */
@@ -16,7 +18,7 @@ import { GuideStep } from '@/types/guide';
 
 /**
  * Complete guide flow configuration
- * Total: 36 steps across 6 independent page guides
+ * Total: 49 steps across 8 independent page guides
  */
 export const GUIDE_FLOW: GuideStep[] = [
   // ============================================================================
@@ -461,6 +463,170 @@ export const GUIDE_FLOW: GuideStep[] = [
     requiresNavigation: false,
     waitForElement: true,
     scrollBehavior: 'none',
+  },
+  
+  // ============================================================================
+  // VOCABULARY LIST PAGE STEPS (5 steps)
+  // ============================================================================
+  
+  {
+    id: 'vocab-title',
+    route: '/skill/vocabulary',
+    targetSelector: '.vocab-title',
+    tooltipText: 'Selamat datang di halaman Vocabulary! Di sini Anda bisa belajar kosakata bahasa Inggris berdasarkan topik.',
+    tooltipPosition: 'bottom',
+    mode: 'auto',
+    requiresNavigation: false,
+    waitForElement: true,
+    scrollBehavior: 'smooth',
+  },
+  
+  {
+    id: 'vocab-search',
+    route: '/skill/vocabulary',
+    targetSelector: '[data-tour="vocab-search"]',
+    tooltipText: 'Gunakan search untuk mencari topik vocabulary yang Anda inginkan.',
+    tooltipPosition: 'bottom',
+    mode: 'auto',
+    requiresNavigation: false,
+    waitForElement: true,
+    scrollBehavior: 'smooth',
+  },
+  
+  {
+    id: 'vocab-topic-grid',
+    route: '/skill/vocabulary',
+    targetSelector: '[data-tour="vocab-topic-grid"]',
+    tooltipText: 'Ini adalah daftar topik vocabulary. Klik salah satu topik untuk melihat daftar kata.',
+    tooltipPosition: 'top',
+    mode: 'auto',
+    requiresNavigation: false,
+    waitForElement: true,
+    scrollBehavior: 'smooth',
+  },
+  
+  {
+    id: 'vocab-topic-personal-info',
+    route: '/skill/vocabulary',
+    targetSelector: '.vocab-topic-card:first-child',
+    tooltipText: 'Klik topik "Personal Information" untuk membuka daftar kata dalam topik ini.',
+    tooltipPosition: 'bottom',
+    mode: 'interactive',
+    requiresNavigation: false,
+    waitForElement: true,
+    scrollBehavior: 'smooth',
+  },
+  
+  {
+    id: 'vocab-pagination',
+    route: '/skill/vocabulary',
+    targetSelector: '[data-tour="vocab-pagination"]',
+    tooltipText: 'Gunakan pagination untuk melihat topik vocabulary lainnya. Panduan vocabulary list selesai!',
+    tooltipPosition: 'top',
+    mode: 'auto',
+    requiresNavigation: false,
+    waitForElement: true,
+    scrollBehavior: 'smooth',
+  },
+  
+  // ============================================================================
+  // VOCABULARY DETAIL PAGE STEPS (8 steps)
+  // ============================================================================
+  
+  {
+    id: 'vocab-detail-title',
+    route: '/skill/vocabulary/topic/pages/personal-information',
+    targetSelector: '.vocab-title',
+    tooltipText: 'Ini adalah halaman detail topik vocabulary. Di sini Anda bisa melihat semua kata dalam topik ini.',
+    tooltipPosition: 'bottom',
+    mode: 'auto',
+    requiresNavigation: false,
+    waitForElement: true,
+    scrollBehavior: 'smooth',
+  },
+  
+  {
+    id: 'vocab-detail-saved-progress',
+    route: '/skill/vocabulary/topic/pages/personal-information',
+    targetSelector: '.vocab-control-saved-progress',
+    tooltipText: 'Klik tombol ini untuk menyimpan progress Anda di topik ini.',
+    tooltipPosition: 'bottom',
+    mode: 'interactive',
+    requiresNavigation: false,
+    waitForElement: true,
+    scrollBehavior: 'smooth',
+  },
+  
+  {
+    id: 'vocab-detail-toggle-translation',
+    route: '/skill/vocabulary/topic/pages/personal-information',
+    targetSelector: '[data-tour="vocab-toggle-translation"]',
+    tooltipText: 'Klik untuk menyembunyikan atau menampilkan terjemahan bahasa Indonesia.',
+    tooltipPosition: 'bottom',
+    mode: 'interactive',
+    requiresNavigation: false,
+    waitForElement: true,
+    scrollBehavior: 'smooth',
+  },
+  
+  {
+    id: 'vocab-detail-toggle-ipa',
+    route: '/skill/vocabulary/topic/pages/personal-information',
+    targetSelector: '[data-tour="vocab-toggle-ipa"]',
+    tooltipText: 'Klik untuk menyembunyikan atau menampilkan IPA (International Phonetic Alphabet).',
+    tooltipPosition: 'bottom',
+    mode: 'interactive',
+    requiresNavigation: false,
+    waitForElement: true,
+    scrollBehavior: 'smooth',
+  },
+  
+  {
+    id: 'vocab-detail-practice',
+    route: '/skill/vocabulary/topic/pages/personal-information',
+    targetSelector: '[data-tour="vocab-practice-button"]',
+    tooltipText: 'Klik tombol "Practice" untuk melihat contoh latihan vocabulary.',
+    tooltipPosition: 'bottom',
+    mode: 'interactive',
+    requiresNavigation: false,
+    waitForElement: true,
+    scrollBehavior: 'smooth',
+  },
+  
+  {
+    id: 'vocab-detail-play-all',
+    route: '/skill/vocabulary/topic/pages/personal-information',
+    targetSelector: '[data-tour="vocab-play-all-button"]',
+    tooltipText: 'Klik "Play All Words" untuk mendengar pengucapan semua kata secara berurutan.',
+    tooltipPosition: 'bottom',
+    mode: 'interactive',
+    requiresNavigation: false,
+    waitForElement: true,
+    scrollBehavior: 'smooth',
+  },
+  
+  {
+    id: 'vocab-detail-word-card',
+    route: '/skill/vocabulary/topic/pages/personal-information',
+    targetSelector: '.vocab-card:first-child',
+    tooltipText: 'Ini adalah kartu kata vocabulary. Anda bisa klik "Play Word" atau "Play Example" untuk mendengar pengucapannya.',
+    tooltipPosition: 'top',
+    mode: 'auto',
+    requiresNavigation: false,
+    waitForElement: true,
+    scrollBehavior: 'smooth',
+  },
+  
+  {
+    id: 'vocab-detail-prompt',
+    route: '/skill/vocabulary/topic/pages/personal-information',
+    targetSelector: '.vocab-prompt-toggle',
+    tooltipText: 'Selamat! Klik bagian "Prompt" untuk menyelesaikan panduan vocabulary.',
+    tooltipPosition: 'top',
+    mode: 'interactive',
+    requiresNavigation: false,
+    waitForElement: true,
+    scrollBehavior: 'smooth',
   },
 ];
 
