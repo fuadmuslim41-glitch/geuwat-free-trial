@@ -1,22 +1,16 @@
-// CONTOH IMPLEMENTASI GOOGLE ANALYTICS
-// File ini adalah contoh bagaimana menambahkan tracking ke komponen Anda
-// Jangan gunakan file ini langsung, tapi copy kode yang relevan ke komponen Anda
+# Google Analytics - Code Examples
 
+File ini berisi contoh-contoh code untuk implementasi tracking. Copy code yang relevan ke komponen Anda.
+
+## CONTOH 1: Track Page View di Pronunciation
+
+```typescript
 'use client';
 
 import { useEffect } from 'react';
-import { 
-  trackFeatureUsage, 
-  trackButtonClick,
-  trackPronunciation,
-  trackNavigation,
-  trackAudio
-} from '@/lib/analytics';
+import { trackFeatureUsage } from '@/lib/analytics';
 
-// ============================================
-// CONTOH 1: Track Page View di Pronunciation
-// ============================================
-export function PhoneticPortalWithTracking() {
+export default function PhoneticPortalWithTracking() {
   // Track saat halaman dibuka
   useEffect(() => {
     trackFeatureUsage('Pronunciation', 'page_view', 'Phonetic Portal');
@@ -24,11 +18,16 @@ export function PhoneticPortalWithTracking() {
 
   return <div>Phonetic Portal Content</div>;
 }
+```
 
-// ============================================
-// CONTOH 2: Track Button Clicks
-// ============================================
-export function ButtonWithTracking() {
+## CONTOH 2: Track Button Clicks
+
+```typescript
+'use client';
+
+import { trackButtonClick } from '@/lib/analytics';
+
+export default function ButtonWithTracking() {
   const handleOpenSymbolTable = () => {
     // Track button click
     trackButtonClick('Open Symbol Table', 'Phonetic Portal');
@@ -60,11 +59,16 @@ export function ButtonWithTracking() {
     </div>
   );
 }
+```
 
-// ============================================
-// CONTOH 3: Track Portal Card Clicks
-// ============================================
-export function PortalCardWithTracking() {
+## CONTOH 3: Track Portal Card Clicks
+
+```typescript
+'use client';
+
+import { trackFeatureUsage, trackButtonClick } from '@/lib/analytics';
+
+export default function PortalCardWithTracking() {
   const handlePortalClick = (portalType: string) => {
     // Track portal yang diklik
     trackFeatureUsage('Pronunciation', 'portal_opened', portalType);
@@ -87,11 +91,16 @@ export function PortalCardWithTracking() {
     </div>
   );
 }
+```
 
-// ============================================
-// CONTOH 4: Track Symbol Audio Playback
-// ============================================
-export function SymbolAudioWithTracking() {
+## CONTOH 4: Track Symbol Audio Playback
+
+```typescript
+'use client';
+
+import { trackPronunciation, trackAudio } from '@/lib/analytics';
+
+export default function SymbolAudioWithTracking() {
   const speakSymbol = async (symbol: string) => {
     // Track audio playback
     trackPronunciation('play_audio', symbol);
@@ -116,11 +125,16 @@ export function SymbolAudioWithTracking() {
     </div>
   );
 }
+```
 
-// ============================================
-// CONTOH 5: Track Symbol Detail Navigation
-// ============================================
-export function SymbolNavigationWithTracking() {
+## CONTOH 5: Track Symbol Detail Navigation
+
+```typescript
+'use client';
+
+import { trackPronunciation, trackNavigation } from '@/lib/analytics';
+
+export default function SymbolNavigationWithTracking() {
   const handleSymbolClick = (symbol: string) => {
     // Track navigation ke detail symbol
     trackPronunciation('symbol_detail_opened', symbol);
@@ -137,15 +151,24 @@ export function SymbolNavigationWithTracking() {
     </div>
   );
 }
+```
 
-// ============================================
-// CONTOH 6: Track Premium Feature Clicks
-// ============================================
-export function PremiumFeatureWithTracking() {
-  const handlePremiumClick = (featureName: string) => {
+## CONTOH 6: Track Premium Feature Clicks
+
+```typescript
+'use client';
+
+import { trackFeatureUsage, trackButtonClick } from '@/lib/analytics';
+
+interface PremiumFeatureProps {
+  featureName: string;
+}
+
+export default function PremiumFeatureWithTracking({ featureName }: PremiumFeatureProps) {
+  const handlePremiumClick = (feature: string) => {
     // Track premium feature yang diklik
-    trackFeatureUsage('Premium', 'premium_feature_clicked', featureName);
-    trackButtonClick('Daftar Sekarang', `Premium Modal - ${featureName}`);
+    trackFeatureUsage('Premium', 'premium_feature_clicked', feature);
+    trackButtonClick('Daftar Sekarang', `Premium Modal - ${feature}`);
     
     // ... logic untuk redirect ke registration
   };
@@ -153,17 +176,22 @@ export function PremiumFeatureWithTracking() {
   return (
     <div className="premium-modal">
       <h3>Unlock {featureName}</h3>
-      <button onClick={() => handlePremiumClick('Symbol Chart')}>
+      <button onClick={() => handlePremiumClick(featureName)}>
         Daftar Sekarang
       </button>
     </div>
   );
 }
+```
 
-// ============================================
-// CONTOH 7: Track Modal Open/Close
-// ============================================
-export function ModalWithTracking() {
+## CONTOH 7: Track Modal Open/Close
+
+```typescript
+'use client';
+
+import { trackFeatureUsage } from '@/lib/analytics';
+
+export default function ModalWithTracking() {
   const openModal = (modalName: string) => {
     trackFeatureUsage('Modal', 'modal_opened', modalName);
     // ... open modal logic
@@ -181,11 +209,16 @@ export function ModalWithTracking() {
     </div>
   );
 }
+```
 
-// ============================================
-// CONTOH 8: Track Video Interactions
-// ============================================
-export function VideoWithTracking() {
+## CONTOH 8: Track Video Interactions
+
+```typescript
+'use client';
+
+import { trackPronunciation } from '@/lib/analytics';
+
+export default function VideoWithTracking() {
   const handleVideoPlay = (videoId: string) => {
     trackPronunciation('video_played', videoId);
     // ... video play logic
@@ -205,11 +238,17 @@ export function VideoWithTracking() {
     </video>
   );
 }
+```
 
-// ============================================
-// CONTOH 9: Track User Journey Steps
-// ============================================
-export function UserJourneyWithTracking() {
+## CONTOH 9: Track User Journey Steps
+
+```typescript
+'use client';
+
+import { useEffect } from 'react';
+import { trackFeatureUsage } from '@/lib/analytics';
+
+export default function UserJourneyWithTracking() {
   useEffect(() => {
     // Track step dalam user journey
     trackFeatureUsage('User Journey', 'step_completed', 'Opened Phonetic Portal');
@@ -222,62 +261,86 @@ export function UserJourneyWithTracking() {
 
   return <button onClick={handleNextStep}>Next Step</button>;
 }
+```
 
-// ============================================
-// CARA IMPLEMENTASI KE KOMPONEN YANG ADA
-// ============================================
+## CARA IMPLEMENTASI KE KOMPONEN YANG ADA
 
-/*
-LANGKAH-LANGKAH:
+### Langkah-langkah:
 
-1. Import fungsi tracking di bagian atas komponen:
-   import { trackFeatureUsage, trackButtonClick, trackPronunciation } from '@/lib/analytics';
+#### 1. Import fungsi tracking di bagian atas komponen:
+```typescript
+import { trackFeatureUsage, trackButtonClick, trackPronunciation } from '@/lib/analytics';
+```
 
-2. Tambahkan tracking di useEffect untuk page view:
-   useEffect(() => {
-     trackFeatureUsage('Pronunciation', 'page_view', 'Phonetic Portal');
-   }, []);
+#### 2. Tambahkan tracking di useEffect untuk page view:
+```typescript
+useEffect(() => {
+  trackFeatureUsage('Pronunciation', 'page_view', 'Phonetic Portal');
+}, []);
+```
 
-3. Tambahkan tracking di event handlers yang sudah ada:
-   
-   SEBELUM:
-   const handleClick = () => {
-     // logic
-   };
-   
-   SESUDAH:
-   const handleClick = () => {
-     trackButtonClick('Button Name', 'Location');
-     // logic
-   };
+#### 3. Tambahkan tracking di event handlers yang sudah ada:
 
-4. Untuk audio playback, tambahkan di fungsi speakSymbol:
-   
-   SEBELUM:
-   const speakSymbol = async (symbol: string) => {
-     // play audio logic
-   };
-   
-   SESUDAH:
-   const speakSymbol = async (symbol: string) => {
-     trackPronunciation('play_audio', symbol);
-     // play audio logic
-   };
+**SEBELUM:**
+```typescript
+const handleClick = () => {
+  // logic
+};
+```
 
-5. Untuk navigation, tambahkan sebelum router.push:
-   
-   SEBELUM:
-   router.push(path);
-   
-   SESUDAH:
-   trackNavigation('Current Page', 'Target Page');
-   router.push(path);
-*/
+**SESUDAH:**
+```typescript
+const handleClick = () => {
+  trackButtonClick('Button Name', 'Location');
+  // logic
+};
+```
 
-// ============================================
-// CONTOH LENGKAP: Phonetic Portal dengan Tracking
-// ============================================
-export function CompletePhoneticPortalExample() {
+#### 4. Untuk audio playback, tambahkan di fungsi speakSymbol:
+
+**SEBELUM:**
+```typescript
+const speakSymbol = async (symbol: string) => {
+  // play audio logic
+};
+```
+
+**SESUDAH:**
+```typescript
+const speakSymbol = async (symbol: string) => {
+  trackPronunciation('play_audio', symbol);
+  // play audio logic
+};
+```
+
+#### 5. Untuk navigation, tambahkan sebelum router.push:
+
+**SEBELUM:**
+```typescript
+router.push(path);
+```
+
+**SESUDAH:**
+```typescript
+trackNavigation('Current Page', 'Target Page');
+router.push(path);
+```
+
+## CONTOH LENGKAP: Phonetic Portal dengan Tracking
+
+```typescript
+'use client';
+
+import { useEffect } from 'react';
+import { 
+  trackFeatureUsage, 
+  trackButtonClick,
+  trackPronunciation,
+  trackNavigation,
+  trackAudio 
+} from '@/lib/analytics';
+
+export default function CompletePhoneticPortalExample() {
   useEffect(() => {
     // Track page view
     trackFeatureUsage('Pronunciation', 'page_view', 'Phonetic Portal');
@@ -348,3 +411,12 @@ export function CompletePhoneticPortalExample() {
     </div>
   );
 }
+```
+
+## Tips
+
+1. **Selalu gunakan 'use client'** di komponen yang menggunakan tracking
+2. **Import hanya fungsi yang dibutuhkan** untuk mengurangi bundle size
+3. **Track di awal fungsi** sebelum logic lainnya
+4. **Gunakan nama yang konsisten** untuk event categories dan actions
+5. **Tambahkan context** di event labels untuk insights lebih baik
