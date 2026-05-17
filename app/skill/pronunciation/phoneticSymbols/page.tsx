@@ -7,6 +7,7 @@ import BackButton from '../../components/BackButton';
 import Sidebar from '../../components/skillSidebar/SkillSidebar';
 import { primeBestEnglishVoice, speakWithBestEnglishVoice } from '../tts-utils';
 import { getSymbolSpeechProfile, hasSymbolSpeechProfile } from './data/symbolSpeechMap';
+import { trackFeatureUsage, trackButtonClick, trackPronunciation, trackNavigation } from '@/lib/analytics';
 
 interface PhoneticSymbol {
   symbol: string;
@@ -157,7 +158,16 @@ const PhoneticPortal: React.FC = () => {
     }
   }, []);
 
+  // Track page view
+  useEffect(() => {
+    trackFeatureUsage('Pronunciation', 'page_view', 'Phonetic Portal');
+  }, []);
+
   const togglePortal = (portalId: string) => {
+    // Track portal toggle
+    trackFeatureUsage('Pronunciation', 'portal_toggled', portalId);
+    trackButtonClick(`${portalId} Portal Card`, 'Phonetic Portal');
+
     // Jika consonant portal diklik, buka modal premium
     if (portalId === 'consonant') {
       openConsonantPortal();
@@ -205,6 +215,8 @@ const PhoneticPortal: React.FC = () => {
   }, []);
 
   const openSymbolTable = useCallback(() => {
+    trackButtonClick('Phonetic Symbol Chart', 'Phonetic Portal');
+    trackFeatureUsage('Pronunciation', 'symbol_table_opened');
     setIsSymbolTableOpen(true);
   }, []);
 
@@ -214,6 +226,8 @@ const PhoneticPortal: React.FC = () => {
   }, [stopCurrentSymbolSpeech]);
 
   const openCommonMistakes = useCallback(() => {
+    trackButtonClick('Common Mistakes', 'Phonetic Portal');
+    trackFeatureUsage('Pronunciation', 'common_mistakes_opened');
     setIsCommonMistakesOpen(true);
   }, []);
 
@@ -222,6 +236,8 @@ const PhoneticPortal: React.FC = () => {
   }, []);
 
   const openTongueTwister = useCallback(() => {
+    trackButtonClick('Tongue Twister', 'Phonetic Portal');
+    trackFeatureUsage('Pronunciation', 'tongue_twister_opened');
     setIsTongueTwisterOpen(true);
   }, []);
 
@@ -230,6 +246,8 @@ const PhoneticPortal: React.FC = () => {
   }, []);
 
   const openSummary = useCallback(() => {
+    trackButtonClick('Summary', 'Phonetic Portal');
+    trackFeatureUsage('Pronunciation', 'summary_opened');
     setIsSummaryOpen(true);
   }, []);
 
@@ -263,6 +281,7 @@ const PhoneticPortal: React.FC = () => {
 
   const speakSymbol = useCallback(
     async (symbol: string) => {
+      trackPronunciation('play_audio', symbol);
       stopCurrentSymbolSpeech();
       setActiveSpeakingSymbol(symbol);
       const symbolSpeechProfile = getSymbolSpeechProfile(symbol);
@@ -284,6 +303,8 @@ const PhoneticPortal: React.FC = () => {
   const playAllSymbols = useCallback(async () => {
     if (!symbolPlayAllQueue.length) return;
 
+    trackPronunciation('play_all_symbols');
+    trackButtonClick('Play All Symbols', 'Symbol Table');
     stopCurrentSymbolSpeech();
     await primeBestEnglishVoice();
 
@@ -480,11 +501,14 @@ const PhoneticPortal: React.FC = () => {
     
     // Jika symbol adalah vowel (bukan 'i'), tampilkan popup premium
     if (symbol.category === 'vowel' && !allowedSymbols.includes(symbol.symbol)) {
+      trackFeatureUsage('Premium', 'premium_feature_clicked', 'Vowel Symbol');
       openVowelSymbol();
       return;
     }
     
     // Jika 'i' atau bukan vowel, lanjutkan ke halaman detail
+    trackPronunciation('symbol_detail_opened', symbol.symbol);
+    trackNavigation('Phonetic Portal', `Symbol Detail - ${symbol.symbol}`);
     const path = getSymbolDetailPath(symbol.symbol);
     prefetchPath(path);
     router.push(path);

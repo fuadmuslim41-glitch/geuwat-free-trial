@@ -8,6 +8,9 @@ import SkillThemeSync from "@/app/components/SkillThemeSync";
 import { GlobalHaptic } from "@/app/components/haptic";
 import KepalaTeaserMount from "@/app/components/KepalaTeaserMount";
 import { GuideProvider } from "@/contexts/GuideContext";
+import { GoogleAnalytics } from '@next/third-parties/google';
+import { GA_MEASUREMENT_ID } from "@/lib/analytics";
+import AnalyticsProvider from "@/app/components/AnalyticsProvider";
 
 
 
@@ -38,14 +41,17 @@ export default function RootLayout({
         <AuthProvider>
           <GlobalHaptic>
             <GuideProvider>
-              {children}
-              <SkillThemeSync />
-              <MobileBottomNav />
-              <DesktopBottomNav />
-              <KepalaTeaserMount />
+              <AnalyticsProvider>
+                {children}
+                <SkillThemeSync />
+                <MobileBottomNav />
+                <DesktopBottomNav />
+                <KepalaTeaserMount />
+              </AnalyticsProvider>
             </GuideProvider>
           </GlobalHaptic>
         </AuthProvider>
+        {GA_MEASUREMENT_ID && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
       </body>
     </html>
   );
