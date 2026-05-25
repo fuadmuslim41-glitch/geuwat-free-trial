@@ -7,6 +7,15 @@ import {
 
 type MockVoice = Pick<SpeechSynthesisVoice, 'name' | 'lang'>;
 
+const originalNavigator = window.navigator;
+
+function setNavigatorUserAgent(userAgent: string) {
+  Object.defineProperty(window, 'navigator', {
+    configurable: true,
+    value: { userAgent },
+  })
+}
+
 class MockSpeechSynthesisUtterance {
   readonly text: string;
   lang = '';
@@ -88,6 +97,10 @@ function setupSpeechEnvironment(synth: SpeechSynthesisMock) {
 describe('lib/tts/speech', () => {
   afterEach(() => {
     jest.restoreAllMocks();
+    Object.defineProperty(window, 'navigator', {
+      configurable: true,
+      value: originalNavigator,
+    });
   });
 
   it('keeps explicit lang override and does not force en-US', () => {
@@ -136,6 +149,35 @@ describe('lib/tts/speech', () => {
 
     await Promise.all([waitA, waitB]);
     expect(synth.removeEventListener).toHaveBeenCalledTimes(1);
+  });
+
+  it('prefers Google US English on Android devices', () => {
+    setNavigatorUserAgent('Mozilla/5.0 (Linux; Android 12; Pixel 5) AppleWebKit/537.36');
+
+    const picked = pickPreferredEnglishVoice(
+      [
+        { name: 'Samantha', lang: 'en-US' },
+        { name: 'Google US English', lang: 'en-US' },
+      ] as SpeechSynthesisVoice[],
+      'en-US',
+    );
+
+    expect(picked?.name).toBe('Google US English');
+  });
+
+  it('prefers Samantha on iOS devices', () => {
+    setNavigatorUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15');
+
+    const picked = pickPreferredEnglishVoice(
+      [
+        { name: 'Google US English', lang: 'en-US' },
+        { name: 'Samantha', lang: 'en-US' },
+        { name: 'Alex', lang: 'en-US' },
+      ] as SpeechSynthesisVoice[],
+      'en-US',
+    );
+
+    expect(picked?.name).toBe('Samantha');
   });
 
   it('resolves speakText on end and error events', async () => {

@@ -31,6 +31,91 @@ const HIGH_QUALITY_EN_GB_VOICE_NAMES = [
   'Microsoft Hazel Desktop - English (Great Britain)',
 ] as const;
 
+const APPLE_EN_US_VOICE_NAMES = ['Samantha', 'Alex'] as const;
+const APPLE_EN_GB_VOICE_NAMES = ['Daniel', 'Kate'] as const;
+const MICROSOFT_EN_US_VOICE_NAMES = [
+  'Microsoft Aria Online (Natural) - English (United States)',
+  'Microsoft Jenny Online (Natural) - English (United States)',
+  'Microsoft Guy Online (Natural) - English (United States)',
+  'Microsoft Zira Online (Natural) - English (United States)',
+  'Microsoft David Desktop',
+  'Microsoft Zira Desktop',
+] as const;
+const MICROSOFT_EN_GB_VOICE_NAMES = [
+  'Microsoft Sonia Online (Natural) - English (United Kingdom)',
+  'Microsoft Ryan Online (Natural) - English (United Kingdom)',
+  'Microsoft Hazel Desktop - English (Great Britain)',
+] as const;
+const GOOGLE_EN_US_VOICE_NAMES = ['Google US English', 'Google US English Male'] as const;
+const GOOGLE_EN_GB_VOICE_NAMES = ['Google UK English Female', 'Google UK English Male'] as const;
+
+type DevicePlatform = 'android' | 'ios' | 'macos' | 'windows' | 'linux' | 'unknown';
+
+function detectDevicePlatform(): DevicePlatform {
+  if (typeof navigator === 'undefined' || !navigator.userAgent) return 'unknown';
+
+  const userAgent = navigator.userAgent.toLowerCase();
+  if (userAgent.includes('android')) return 'android';
+  if (/ipad|iphone|ipod/.test(userAgent)) return 'ios';
+  if (userAgent.includes('windows')) return 'windows';
+  if (userAgent.includes('macintosh') || userAgent.includes('mac os x')) return 'macos';
+  if (userAgent.includes('linux')) return 'linux';
+  return 'unknown';
+}
+
+function getPreferredVoiceNameOrder(
+  preferred: PreferredEnglishLang,
+  platform: DevicePlatform,
+): readonly string[] {
+  if (preferred === 'en-US') {
+    if (platform === 'android') {
+      return [
+        ...GOOGLE_EN_US_VOICE_NAMES,
+        ...MICROSOFT_EN_US_VOICE_NAMES,
+        ...APPLE_EN_US_VOICE_NAMES,
+      ];
+    }
+    if (platform === 'ios' || platform === 'macos') {
+      return [
+        ...APPLE_EN_US_VOICE_NAMES,
+        ...GOOGLE_EN_US_VOICE_NAMES,
+        ...MICROSOFT_EN_US_VOICE_NAMES,
+      ];
+    }
+    if (platform === 'windows') {
+      return [
+        ...MICROSOFT_EN_US_VOICE_NAMES,
+        ...GOOGLE_EN_US_VOICE_NAMES,
+        ...APPLE_EN_US_VOICE_NAMES,
+      ];
+    }
+    return [...HIGH_QUALITY_EN_US_VOICE_NAMES];
+  }
+
+  if (platform === 'android') {
+    return [
+      ...GOOGLE_EN_GB_VOICE_NAMES,
+      ...MICROSOFT_EN_GB_VOICE_NAMES,
+      ...APPLE_EN_GB_VOICE_NAMES,
+    ];
+  }
+  if (platform === 'ios' || platform === 'macos') {
+    return [
+      ...APPLE_EN_GB_VOICE_NAMES,
+      ...GOOGLE_EN_GB_VOICE_NAMES,
+      ...MICROSOFT_EN_GB_VOICE_NAMES,
+    ];
+  }
+  if (platform === 'windows') {
+    return [
+      ...MICROSOFT_EN_GB_VOICE_NAMES,
+      ...GOOGLE_EN_GB_VOICE_NAMES,
+      ...APPLE_EN_GB_VOICE_NAMES,
+    ];
+  }
+  return [...HIGH_QUALITY_EN_GB_VOICE_NAMES];
+}
+
 let waitingVoicesPromise: Promise<void> | null = null;
 
 function normalizeLang(lang: string): string {
@@ -62,6 +147,7 @@ function pickEnglishVoiceFromCandidates(
   preferred: PreferredEnglishLang,
 ): SpeechSynthesisVoice | null {
   const normalizedPreferred = normalizeLang(preferred);
+  const platform = detectDevicePlatform();
   const preferredVoices = voices.filter(
     (voice) => normalizeLang(voice.lang) === normalizedPreferred,
   );
@@ -69,10 +155,10 @@ function pickEnglishVoiceFromCandidates(
     normalizeLang(voice.lang).startsWith('en'),
   );
 
-  const exactPreferred =
-    preferred === 'en-US'
-      ? pickByExactNames(preferredVoices, HIGH_QUALITY_EN_US_VOICE_NAMES)
-      : pickByExactNames(preferredVoices, HIGH_QUALITY_EN_GB_VOICE_NAMES);
+  const exactPreferred = pickByExactNames(
+    preferredVoices,
+    getPreferredVoiceNameOrder(preferred, platform),
+  );
   if (exactPreferred) return exactPreferred;
 
   const naturalPreferred = preferredVoices.find(
@@ -91,10 +177,10 @@ function pickEnglishVoiceFromCandidates(
     return preferredVoices[0];
   }
 
-  const exactEnglishFallback =
-    preferred === 'en-US'
-      ? pickByExactNames(englishVoices, HIGH_QUALITY_EN_US_VOICE_NAMES)
-      : pickByExactNames(englishVoices, HIGH_QUALITY_EN_GB_VOICE_NAMES);
+  const exactEnglishFallback = pickByExactNames(
+    englishVoices,
+    getPreferredVoiceNameOrder(preferred, platform),
+  );
   if (exactEnglishFallback) return exactEnglishFallback;
 
   const naturalEnglish = englishVoices.find(
